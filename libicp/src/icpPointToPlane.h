@@ -32,7 +32,7 @@ public:
   }
 
   virtual ~IcpPointToPlane () {
-    delete M_normal;
+    free(M_normal);
   }
 
 private:

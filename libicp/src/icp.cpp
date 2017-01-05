@@ -23,7 +23,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 using namespace std;
 
 Icp::Icp (double *M,const int32_t M_num,const int32_t dim) :
-  dim(dim), sub_step(10), max_iter(200), min_delta(1e-6) {
+  dim(dim), max_iter(200), min_delta(1e-4) {
   
   // check for correct dimensionality
   if (dim!=2 && dim!=3) {
@@ -68,14 +68,8 @@ void Icp::fit (double *T,const int32_t T_num,Matrix &R,Matrix &t,const double in
     return;
   }
   
-  // coarse matching
+  // set active points
   vector<int32_t> active;
-  active.clear();
-  for (int32_t i=0; i<T_num; i+=sub_step)
-    active.push_back(i);
-  fitIterate(T,T_num,R,t,active);
-  
-  // fine matching
   if (indist<=0) {
     active.clear();
     for (int32_t i=0; i<T_num; i++)
@@ -83,6 +77,8 @@ void Icp::fit (double *T,const int32_t T_num,Matrix &R,Matrix &t,const double in
   } else {
     active = getInliers(T,T_num,R,t,indist);
   }
+  
+  // run icp
   fitIterate(T,T_num,R,t,active);
 }
 

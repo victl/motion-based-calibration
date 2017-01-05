@@ -43,9 +43,6 @@ public:
   // deconstructor
   virtual ~Icp ();
   
-  // set subsampling step size of coarse matching (1. stage)
-  void setSubsamplingStep (int32_t val) { sub_step  = val; }
-  
   // set maximum number of iterations (1. stopping criterion)
   void setMaxIterations   (int32_t val) { max_iter  = val; }
   
@@ -78,7 +75,6 @@ protected:
   kdtree::KDTreeArray M_data;
   
   int32_t dim;       // dimensionality of model + template data (2 or 3)
-  int32_t sub_step;  // subsampling step size
   int32_t max_iter;  // max number of iterations
   double  min_delta; // min parameter delta
 };
